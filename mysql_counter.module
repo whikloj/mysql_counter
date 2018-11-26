@@ -9,7 +9,7 @@
  */
 function mysql_counter_menu() {
   $items = array(
-    'admin/mysql_counter' => array(
+    'admin/config/system/mysql_counter' => array(
       'title' => 'MySQL connection counter',
       'description' => 'Configure the mysql connection.',
       'page callback' => 'drupal_get_form',
