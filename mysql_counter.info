@@ -1,0 +1,5 @@
+name = Mysql Counter
+description = Adds cron execution tasks to log number of open connections.
+package = Other
+version = 0.0.1
+core = 7.x

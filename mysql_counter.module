@@ -1,0 +1,40 @@
+<?php
+/**
+ * @file
+ * Major code.
+ */
+
+/**
+ * Implements hook_cron_queue_info().
+ */
+function mysql_counter_cron_queue_info() {
+  return array(
+    'mysql_counter_check' => array(
+      'worker_callback' => 'mysql_counter_check_call',
+      'timeout' => 5,
+    ),
+  );
+}
+
+/**
+ * Implements hook_cron().
+ */
+function mysql_counter_cron() {
+  // Default to an hourly interval. Of course, cron has to be running at least
+  // hourly for this to work.
+  $interval = variable_get('mysql_counter_execution_interval', 15);
+  $error_log_file = variable_get('mysql_counter_error_log', '/tmp/mysql_counter.log');
+
+  if (time() >= variable_get('mysql_counter_next_execution', 0)) {
+    $query = db_query("SHOW FULL PROCESSLIST");
+    $connections = $query->rowCount();
+    // remove the current connection.
+    $connections -= 1;
+    $string = format_string("!date - !count processes", array(
+      '!date' => date(DATE_ATOM, time()),
+      '!count' => $connections,
+    ));
+    error_log($string, 3, $error_log_file);
+    variable_set('mysql_counter_next_execution', time() + $interval);
+  }
+}

@@ -1,0 +1,14 @@
+<?php
+/**
+ * @file
+ * Install hooks.
+ */
+
+function mysql_counter_uninstall() {
+  $variables = array(
+    'mysql_counter_execution_interval',
+    'mysql_counter_next_execution',
+    'mysql_counter_error_log',
+  );
+  array_walk($variables, 'variable_del');
+}
