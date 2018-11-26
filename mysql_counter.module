@@ -5,6 +5,24 @@
  */
 
 /**
+ * Implements hook_menu().
+ */
+function mysql_counter_menu() {
+  $items = array(
+    'admin/mysql_counter' => array(
+      'title' => 'MySQL connection counter',
+      'description' => 'Configure the mysql connection.',
+      'page callback' => 'drupal_get_form',
+      'access arguments' => array('administer site configuration'),
+      'page arguments' => array('mysql_counter_admin_form'),
+      'type' => MENU_NORMAL_ITEM,
+      'file' => 'includes/admin.inc',
+    ),
+  );
+  return $items;
+}
+
+/**
  * Implements hook_cron_queue_info().
  */
 function mysql_counter_cron_queue_info() {
